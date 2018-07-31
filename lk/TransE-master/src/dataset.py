@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 import random
-
+###
 
 class KnowledgeGraph:
     def __init__(self, data_dir,log):
