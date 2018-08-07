@@ -165,7 +165,7 @@ class TransE:
         epoch_loss = 0
 
         for batch_pos, batch_neg in self.kg.get_training_batch(self.batch_size):
-            batch_loss, _, summary = session.run(fetches=[self.loss, self.train_op, self.merge],
+            batch_loss, _, summary,entity_embedding = session.run(fetches=[self.loss, self.train_op, self.merge,self.entity_embedding],
                                                  feed_dict={self.triple_pos: batch_pos,
                                                             self.triple_neg: batch_neg,
                                                             self.margin: [self.margin_value] * len(batch_pos)})
@@ -176,6 +176,7 @@ class TransE:
                                                                            epoch_loss/self.kg.n_training_triple))
 
         # self.check_norm(session=session)
+        return entity_embedding.tolist()
 
     def launch_evaluation(self, session, summary_writer, epoch):
         eval_result_queue = mp.JoinableQueue()
