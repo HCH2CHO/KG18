@@ -48,6 +48,6 @@ cross_direct = False
 cross_output_size = 1
 
 # train
-batch_size = 250000
+batch_size = 100000
 epochs = 10
 learning_rate = 0.01

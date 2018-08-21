@@ -378,20 +378,16 @@ class xDeepFM(object):
                     _out, _loss, _ = self.sess.run((self.softmax_output, self.loss, self.optimizer),feed_dict=batch_dict) #训练集
                     end = time.time()
                     
-                    if global_step % 5 == 0:
+                    if global_step % 10 == 0:
                         #__out, __loss, __ = self.sess.run((self.softmax_output, self.loss, self.optimizer),feed_dict=self.valid_dict) #验证集
                         #print('step:',global_step,'train loss:',_loss,'valid loss:',__loss)
                         #if global_step % 50 == 0:
                         __out, __loss = self.sess.run((self.softmax_output, self.loss),feed_dict=self.valid_dict) #验证集
-                        auc,accuracy=auc_score(__out,get_label(self.valid_batch[0],2),2)
-                        print('step:',global_step,'train loss:',_loss,'valid loss:',__loss,'valid_auc:',auc,'accuracy:',accuracy)
-                        #self.global_step.append(global_step)
-                        #self.global_train_loss.append(_loss)
-                        #self.global_valid_loss.append(__loss)
-                        #self.global_valid_auc.append(auc)                            
+                        auc,accuracy,precision,recall=auc_score(__out,get_label(self.valid_batch[0],2),2)
+                        print('step:',global_step,'train loss:',_loss,'valid loss:',__loss,'valid_auc:',auc,'accuracy:',accuracy,' precision: ',precision,' recall: ',recall)                          
                         #写入文件
                         with open('OUT/DeepFM_loss_result.csv','a') as f:
-                            f.write('step: '+str(global_step)+' train loss: '+str(_loss)+' valid loss: '+str(__loss)+' valid_auc: '+str(auc)+' accuracy: '+str(accuracy)+'\n')  
+                            f.write('step: '+str(global_step)+' train loss: '+str(_loss)+' valid loss: '+str(__loss)+' valid_auc: '+str(auc)+' accuracy: '+str(accuracy)+' precision: '+str(precision)+' recall: '+str(recall)+'\n')  
                     
                 #每轮输出一次测试结果，并保存模型
                 saver.save(self.sess,'ckpt/mnist.ckpt',global_step=i+1)

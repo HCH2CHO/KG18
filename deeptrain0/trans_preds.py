@@ -87,7 +87,7 @@ with open('Result/result.csv','w') as result:
                 
 #merge
 with open('Result/result.csv','r') as result:
-    final_result=open('Result/final_result','w')
+    final_result=open('Result/final_result.csv','w')
     all_line=result.readlines()
     all_line.reverse()
     num=len(all_line)

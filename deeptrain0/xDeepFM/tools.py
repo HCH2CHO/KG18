@@ -1,8 +1,7 @@
-import numpy as np
-import pandas as pd
-import tensorflow as tf
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
 
 #评估函数，直接根据真实值（必须是二值）、预测值（可以是0/1, 也可以是proba值）计算出auc值
 def auc_score(preds, labels, label_size):
@@ -10,8 +9,10 @@ def auc_score(preds, labels, label_size):
     labels = [x[label_size - 1] for x in labels]
     roc_score = roc_auc_score(labels, preds)
     preds = [int(item>0.5) for  item in preds]
-    accuracy=accuracy_score(labels, preds)
-    return roc_score,accuracy
+    precision=accuracy_score(labels, preds)
+    recall=precision_score(labels, preds)
+    accuracy=recall_score(labels, preds)
+    return roc_score,accuracy,precision,recall
 
 #将文本按行储存到列表中
 def _get_data(data_dir):
